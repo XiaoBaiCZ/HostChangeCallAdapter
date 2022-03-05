@@ -48,8 +48,7 @@ final class HostChangeCallAdapter<R, T> implements CallAdapter<R, T> {
             final HttpUrl baseUrl = Utils.checkNull(HttpUrl.parse(baseUrlStr), "baseUrl is null");
             urlBuilder.scheme(baseUrl.scheme());
             urlBuilder.host(baseUrl.host());
-            if (baseUrl.port() > 0 && baseUrl.port() < 65536)
-                urlBuilder.port(baseUrl.port());
+            urlBuilder.port(matchPort(baseUrl));
             final HttpUrl newUrl = urlBuilder.build();
             final Request newReq = oldReq.newBuilder().url(newUrl).build();
             final okhttp3.Call newCall = retrofit.callFactory().newCall(newReq);
@@ -57,6 +56,16 @@ final class HostChangeCallAdapter<R, T> implements CallAdapter<R, T> {
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private int matchPort(final HttpUrl url) {
+        if (checkPort(url.port()))
+            return url.port();
+        return HttpUrl.defaultPort(url.scheme());
+    }
+
+    private boolean checkPort(final int port) {
+        return port > 0 && port < 65536;
     }
 
 }

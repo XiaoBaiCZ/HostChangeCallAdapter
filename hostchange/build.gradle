@@ -5,14 +5,17 @@ plugins {
 
 group='com.github.XiaoBaiCZ'
 
+final vCode = 220306    // yyMMdd
+final vName = '0.1.1'   // big.small.hotfix
+
 android {
     compileSdk 31
 
     defaultConfig {
         minSdk 21
         targetSdk 31
-        versionCode 220305
-        versionName "0.1"
+        versionCode vCode
+        versionName vName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -52,7 +55,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'cc.xiaobaicz.calladapter.hostchange'
                 artifactId = 'hostchange'
-                version = '0.1'
+                version = vName
             }
         }
     }
